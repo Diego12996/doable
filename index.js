@@ -1,7 +1,7 @@
 import { login, logout } from "./script/services/session-services.js";
 
 const credentials = {
-	"email": "test@mail.com",
+	"email": "dexhuj@mail.com",
 	"password": "123456"
 }
 

@@ -1,47 +1,15 @@
-const base_url = "https://doable-api.herokuapp.com"
-const tokenKey = "doable_token"
+import { tokenKey } from "../config.js"
+import apiFetch from "./api-fetch.js"
 
 export async function login(credentials = { email, password }) {
-  const response = await fetch(`${base_url}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(credentials)
-  })
-
-  const data = await response.json()
-
-  if(!response.ok) {
-    throw new Error(data.errors)
-  }
-
-  sessionStorage.setItem(tokenKey, data.token)
-  return data
+  const {token, ...user} = await apiFetch("login", {body: credentials})
+  sessionStorage.setItem(tokenKey, user.token)
+  return user
 }
 
 export async function logout(){
-  const token = sessionStorage.getItem(tokenKey)
-  const response = await fetch(`${base_url}/logout`, {
-    method: "DELETE",
-    headers: {
-      "Authorization": `Token token=${token}`
-    }
-  })
-
-  let data;
-
-  try {
-    data = await response.json()
-  } catch (error) {
-    data = response.statusText;
-  }
-
-  if(!response.ok) {
-    throw new Error(data.errors)
-  }
-
+  const data = await apiFetch("logout", { method: "DELETE" })
   sessionStorage.removeItem(tokenKey)
-  return data;
+  return data
 }
 
