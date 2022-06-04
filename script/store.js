@@ -6,11 +6,18 @@ async function fetchTasks() {
   this.urgent = tasks.filter( task => task.important == true);
   this.tasks = tasks;
 }
+
+function currentTasks(){
+  return this[this.tasks]
+}
+
 const STORE = {
   user: null,
+  urgent: [],
   complete: [],
   tasks: [],
   fetchTasks,
+  currentTasks
 }
 
 export default STORE;

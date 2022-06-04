@@ -3,6 +3,7 @@ import DOMHandler from "../dom-handler.js";
 import { login } from "../services/session-services.js";
 import STORE from "../store.js";
 import HomePage from "./home-page.js";
+import SignupPage from "./signup-page.js";
 
 function render() {
   const { loginError } = LoginPage.state;
@@ -68,12 +69,22 @@ function listenSubmitForm() {
   })
 }
 
+function GoToSignup() {
+  const signup =  document.querySelector(".js-signup-link")
+  signup.addEventListener("click", (event) => {
+    event.preventDefault()
+    // STORE.currenTab = "signup"
+    DOMHandler.load(SignupPage)
+  })
+}
+
 const LoginPage = {
   toString() {
     return render()
   },
   addListeners() {
-    listenSubmitForm()
+    listenSubmitForm(),
+    GoToSignup()
   },
   state: {
     loginError: null,

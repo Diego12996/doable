@@ -1,3 +1,5 @@
+import { input, select } from "../components/input.js"
+import Tasks from "../components/tasks.js"
 import DOMHandler from "../dom-handler.js"
 import { logout } from "../services/session-services.js"
 import STORE from "../store.js"
@@ -10,6 +12,24 @@ function render() {
       <h1 class="heading heading--lg text-center mb-2">Expensable</h1>
       <a class="text-center block mb-8 js-logout" href="#" data-action="logout">Logout</a>
     </section>
+    <form>
+
+      ${select({
+        id: "sort",
+        label: "Sort"
+      })}
+
+    </form>
+
+    <form>
+      <input type="radio" id="pending" name="same" value="Only pending">
+      <label for="pending">Only pending</label><br>
+      <input type="radio" id="important" name="same" value="Only pending">
+      <label for="important">Only important</label><br>
+    </form>
+
+    ${Tasks}
+
   </main>
   `
 }
@@ -36,6 +56,7 @@ const HomePage = {
   },
   addListeners() {
     listenLogout();
+    Tasks.addListeners();
   }
 }
 
