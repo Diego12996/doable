@@ -17,6 +17,6 @@ async function init () {
   }
 }
 
-sessionStorage.setItem(tokenKey, "tUrMC9a")
+// sessionStorage.setItem(tokenKey, "tUrMC9a")
 
 init();

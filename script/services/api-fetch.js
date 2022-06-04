@@ -41,5 +41,5 @@ export default async function apiFetch(endpoint , { method, headers, body } = {}
     data = response.statusText;
   }
 
-  return data
+  return data;
 }
