@@ -58,7 +58,7 @@ function listenSubmitForm() {
 
       const user = await login(credentials)
       STORE.user = user
-      console.log(user)
+      await STORE.fetchTasks()
       DOMHandler.load(HomePage)
     } catch (error) {
       LoginPage.state.loginError = error.message
