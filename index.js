@@ -1,20 +1,22 @@
-import { login, logout } from "./script/services/session-services.js";
+import { tokenKey } from "./script/config.js";
+import DOMHandler from "./script/dom-handler.js";
+import HomePage from "./script/pages/home-page.js";
+import LoginPage from "./script/pages/login-page.js";
+import { login } from "./script/services/session-services.js";
 
-const credentials = {
-	"email": "dexhuj@mail.com",
-	"password": "123456"
-}
-
-async function test() {
+async function init () {
   try {
-    const user = await login(credentials)
-    const data = await logout()
-    console.log(user)
-    console.log(data)
-  } catch (error) {
-    console.log(error.message)
-  }
+    const token = sessionStorage.getItem(tokenKey)
 
+    if(!token) throw new Error()
+
+    DOMHandler.load(HomePage)
+  } catch(error) {
+    sessionStorage.removeItem(tokenKey);
+    DOMHandler.load(LoginPage)
+  }
 }
 
-test()
+sessionStorage.setItem(tokenKey, "tUrMC9a")
+
+init();
