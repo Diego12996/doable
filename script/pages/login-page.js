@@ -9,13 +9,15 @@ function render() {
   const { loginError } = LoginPage.state;
 
   return `
-    <main class="section">
+    <main>
       <section class="container">
-        <h1 class="heading heading--lg text-center mb-4">Login</h1>
-        <form class="flex flex-column gap-4 mb-4 js-login-form">
+        <div class="header">
+          <img class="img" src="../assets/{doable}.svg" />
+        </div>
+        
+        <form class="form-sessions flex flex-column gap-4 mb-4 js-login-form">
 
           ${input({
-            label: "email",
             id: "email",
             type: "email",
             placeholder: "nosoydiego@gmail.com",
@@ -24,7 +26,6 @@ function render() {
           })}
 
           ${input({
-            label: "password",
             id: "password",
             type: "password",
             placeholder: "******",

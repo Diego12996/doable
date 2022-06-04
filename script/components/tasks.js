@@ -5,14 +5,14 @@ function render() {
   console.log(tasks)
   return `
     <h2>Tasks</h2>
-    <ul class="js-task-list">
+    <ul class="ul js-task-list">
       ${tasks.map(task => (
-        `<li>
+        `<li class="li">
           <input type="checkbox" data-pendingID="${task.id}" value="pending">
           <p>${task.title}</p>
           <input type="checkbox" data-importantID="${task.id}" value="important">
         </li>`
-      ))}
+      )).join("")}
   `
 }
 

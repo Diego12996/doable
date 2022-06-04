@@ -7,10 +7,12 @@ import LoginPage from "./login-page.js"
 
 function render() {
   return `
-  <main class="section">
+  <main>
     <section class="container">
-      <h1 class="heading heading--lg text-center mb-2">Expensable</h1>
-      <a class="text-center block mb-8 js-logout" href="#" data-action="logout">Logout</a>
+      <div class="header">
+        <img class="img" src="../assets/{doable}.svg" />
+        <a class="js-logout" href="#" data-action="logout">Logout</a>
+      </div>
     </section>
     <form>
 
@@ -29,6 +31,23 @@ function render() {
     </form>
 
     ${Tasks}
+
+    <form class="form-home-page flex flex-column gap-4 mb-4">
+      ${input({
+        id: "task",
+        placeholder: "do the dishes...",
+        required: true,
+      })}
+
+      ${input({
+        id: "date",
+        type: "date",
+        placeholder: "mm/dd/yy",
+        required: false,
+      })}
+
+      <button class="button button--primary">Add Task</button>
+    </form>
 
   </main>
   `

@@ -9,10 +9,12 @@ import LoginPage from "./login-page.js";
 function render() {
   const { SignupError } = SignupPage.state;
   return `
-    <main class="section">
+    <main>
       <section class="container">
-        <h1 class="heading heading--lg text-center mb-4">Signup</h1>
-        <form class="flex flex-column gap-4 mb-4 js-signup-form">
+        <div class="header">
+          <img class="img" src="../assets/{doable}.svg" />
+        </div>
+        <form class="form-sessions flex flex-column gap-4 mb-4 js-signup-form">
 
           ${input({
             id: "email",
@@ -65,8 +67,8 @@ function listenSubmitForm() {
       DOMHandler.load(HomePage)
     } catch (error) {
       // this.state.loginError = error.message
-      let errorDetail = JSON.parse(error.message)
-      SignupPage.state.SignupError = errorDetail.errors
+      // let errorDetail = JSON.parse(error.message)
+      SignupPage.state.SignupError = error.message
       DOMHandler.reload()
     }
   })
