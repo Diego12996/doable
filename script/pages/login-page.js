@@ -1,6 +1,12 @@
 import { input } from "../components/input.js";
+import DOMHandler from "../dom-handler.js";
+import { login } from "../services/session-services.js";
+import STORE from "../store.js";
+import HomePage from "./home-page.js";
 
 function render() {
+  const { loginError } = LoginPage.state;
+
   return `
     <main class="section">
       <section class="container">
@@ -25,7 +31,9 @@ function render() {
             value: "123456"
           })}
 
-          
+          ${loginError ? 
+            `<p class="text-center error-300">${loginError}</p>`: ''
+          }
 
           <button class="button button--primary">Login</button>
         </form>
@@ -35,11 +43,41 @@ function render() {
   `;
 }
 
+function listenSubmitForm() {
+  const form = document.querySelector(".js-login-form")
+  form.addEventListener("submit", async (event) => {
+    try {
+      event.preventDefault();
+
+      const { email, password } = event.target;
+
+      const credentials  = {
+        email: email.value,
+        password: password.value,
+      }
+
+      const user = await login(credentials)
+      STORE.user = user
+      console.log(user)
+      DOMHandler.load(HomePage)
+    } catch (error) {
+      LoginPage.state.loginError = error.message
+      DOMHandler.reload()
+    }
+    
+  })
+}
+
 const LoginPage = {
   toString() {
     return render()
   },
-  addListeners() {}
+  addListeners() {
+    listenSubmitForm()
+  },
+  state: {
+    loginError: null,
+  }
 }
 
 export default LoginPage;
