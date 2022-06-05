@@ -1,3 +1,6 @@
+import DOMHandler from "../dom-handler.js";
+import HomePage from "../pages/home-page.js";
+import { createTask, editTask, getTasks } from "../services/tasks-service.js";
 import STORE from "../store.js";
 
 function render() {
@@ -8,24 +11,60 @@ function render() {
     <ul class="ul js-task-list">
       ${tasks.map(task => (
         `<li class="li">
-          <input type="checkbox" data-pendingID="${task.id}" value="pending">
+          <input type="checkbox" data-pending="${task.id}" value="pending">
           <p>${task.title}</p>
-          <input type="checkbox" data-importantID="${task.id}" value="important">
+          <p>${task.due_date}</p>
+          <input type="checkbox" data-important="${task.id}" value="important">
         </li>`
-      )).join("")}
+      )).join("")} 
   `
 }
 
 function listenPending() {
-  const ul = document.querySelector(".js-tasks-list")
+  const ul = document.querySelector(".js-task-list")
 
-  ul.addEventListener("checked", event => {
+  ul.addEventListener("click", async (event) => {
     event.preventDefault()
 
-    const pendingButton = event.target.closest("[data-pendingID]")
-    if(!pendingButton) return;
+    const pendingButton = event.target.closest("[data-pending]")
+    if(!pendingButton) return
 
-    console.log(pendingButton.dataset.pendingID)
+    const id = pendingButton.dataset.pending
+
+    const task = STORE.getTask(id)
+
+    const data = {
+      completed: !task.completed
+    }
+
+    await editTask(id, data)
+    // const id = STORE.tasktDetail.id
+    await STORE.fetchTasks()
+    // STORE.updateTask(id)
+    DOMHandler.reload()
+  })
+}
+
+function listenImportant() {
+  const ul = document.querySelector(".js-task-list")
+
+  ul.addEventListener("click", async (event) => {
+    event.preventDefault()
+
+    const importantButton = event.target.closest("[data-important]")
+    if(!importantButton) return
+
+    const id = importantButton.dataset.important
+
+    const task = STORE.getTask(id)
+
+    const data = {
+      important: !task.important
+    }
+
+    await editTask(id, data)
+    await STORE.fetchTasks()
+    DOMHandler.reload()
   })
 }
 
@@ -34,7 +73,8 @@ const Tasks = {
     return render();
   },
   addListeners(){
-    listenPending()
+    listenPending(),
+    listenImportant()
   }
 }
 

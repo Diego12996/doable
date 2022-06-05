@@ -2,6 +2,7 @@ import { input, select } from "../components/input.js"
 import Tasks from "../components/tasks.js"
 import DOMHandler from "../dom-handler.js"
 import { logout } from "../services/session-services.js"
+import { createTask } from "../services/tasks-service.js"
 import STORE from "../store.js"
 import LoginPage from "./login-page.js"
 
@@ -46,8 +47,8 @@ function render() {
         required: false,
       })}
 
-      <button class="button button--primary">Add Task</button>
-    </form>
+      <button class="button_task button button--primary">Add Task</button>
+    </form> 
 
   </main>
   `
@@ -69,13 +70,44 @@ function listenLogout() {
   })
 }
 
+function addTask() {
+  const formCreate = document.querySelector(".form-home-page")
+  const button = document.querySelector(".button_task")
+
+  button.addEventListener("click", async event => {
+    console.log(formCreate.task.value)
+    console.log(formCreate.date.value)
+    if(!formCreate.task.value) return 
+    if(!formCreate.date.value) return
+
+    try {
+      event.preventDefault()
+
+      const { title, due_date } = event.target;
+
+      const newTask = {
+        title: formCreate.task.value,
+        due_date: formCreate.date.value
+      }
+
+      await createTask(newTask)
+      await STORE.fetchTasks()
+      DOMHandler.reload()
+    } catch (error) {
+      console.log (error.message)
+      DOMHandler.reload()
+    }
+  })
+}
+
 const HomePage = {
   toString() {
     return render()
   },
   addListeners() {
-    listenLogout();
-    Tasks.addListeners();
+    listenLogout(),
+    Tasks.addListeners(),
+    addTask()
   }
 }
 

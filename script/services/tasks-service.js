@@ -16,3 +16,7 @@ export function deleteTask(id) {
 export function importantTasks(id) {
   const [task] = STORE.urgent
 }
+
+export function editTask(id, updateTask = { completed, important }) {
+  return apiFetch(`tasks/${id}`, { method: "PATCH", body: updateTask });
+}
