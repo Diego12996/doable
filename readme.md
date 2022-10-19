@@ -24,5 +24,3 @@ Build the MVP for the next big app for handle tasks:  `doable`
 - **User can sort tasks alphabetically**
 - **User can sort tasks by due date (more recent first)**
 - **User can sort tasks by importance (important task first)**
-
-HAPPY CODING! 👨‍💻 👨‍💻
